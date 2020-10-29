@@ -1,0 +1,15 @@
+{
+  "name": "lamln",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.icheck.com.vn:8443/lamln/lamln.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
