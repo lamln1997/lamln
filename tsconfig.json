@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    // phương thức khởi tạo mododule, nodejs sử dụng commonjs
+    "module": "commonjs",
+    // sử dụng import thay vi required
+    "esModuleInterop": true,
+    // version
+    "target": "ES2020",
+    "noImplicitAny": false,
+    // chặn tạo file js.map
+    "sourceMap": false,
+    // thu muc file js sau khi c
+    "outDir": "dist",
+    "skipLibCheck": true,
+    // add them de su dung sequelize-typescript
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    // end sequelize-typescript
+    "resolveJsonModule": true,
+    // loai bo cac comment trong ts khi convert qua js
+    "removeComments": true
+  },
+  "include": ["src/**/*"]
+}
