@@ -1,4 +1,4 @@
-export const databasePsql = {
+const databasePsql = {
     database: 'express',
     dialect: 'postgres',
     port: 5432,
@@ -15,6 +15,6 @@ export const databasePsql = {
         }
     }
 }
-module.exports = {
-    databasePsql: databasePsql
+export {
+    databasePsql
 }

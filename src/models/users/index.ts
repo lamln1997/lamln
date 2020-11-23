@@ -46,10 +46,12 @@ export class UserModel extends Model<UserModel> {
 
     @AllowNull(false)
     @Column(DataType.STRING(255))
+        // tslint:disable-next-line:variable-name
     first_name: string
 
     @AllowNull(false)
     @Column(DataType.STRING(255))
+        // tslint:disable-next-line:variable-name
     last_name: string
 
     @AllowNull(true)
@@ -62,13 +64,15 @@ export class UserModel extends Model<UserModel> {
 
     @CreatedAt
     @Column(DataType.DATE)
+        // tslint:disable-next-line:variable-name
     created_at!: Date;
 
     @UpdatedAt
     @Column(DataType.DATE)
+        // tslint:disable-next-line:variable-name
     updated_at!: Date;
 
-    //constraints: bo qua cac rang buoc giua cac model
+    // constraints: bo qua cac rang buoc giua cac model
     @HasMany(() => UserRole, {constraints: false})
     roles: UserRole[]
     toJSON(): object {

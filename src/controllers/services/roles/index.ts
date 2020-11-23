@@ -12,7 +12,7 @@ async function getRoleById(id) {
     try {
         return await RoleModel.findOne({
             where: {
-                id: id
+                id
             }
         });
     } catch (e) {
@@ -25,7 +25,7 @@ async function updateRole(id, body) {
     try {
         return await RoleModel.update(body, {
             where: {
-                id: id
+                id
             },
             returning: true
         });

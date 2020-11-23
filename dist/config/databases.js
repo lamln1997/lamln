@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.databasePsql = void 0;
-exports.databasePsql = {
+const databasePsql = {
     database: 'express',
     dialect: 'postgres',
     port: 5432,
@@ -18,6 +18,4 @@ exports.databasePsql = {
         }
     }
 };
-module.exports = {
-    databasePsql: exports.databasePsql
-};
+exports.databasePsql = databasePsql;

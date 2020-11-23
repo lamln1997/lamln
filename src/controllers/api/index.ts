@@ -6,8 +6,8 @@ import {permissionRouter} from './permissions';
 import {roleRouter} from './roles';
 import {checkToken} from "../middleware";
 
-apiRouter.use('/users', userRouter);
-apiRouter.use('/permissions', checkToken, permissionRouter);
-apiRouter.use('/roles',checkToken, roleRouter);
+apiRouter.use('/user', userRouter);
+apiRouter.use('/permission', checkToken, permissionRouter);
+apiRouter.use('/role',checkToken, roleRouter);
 
 export {apiRouter};
