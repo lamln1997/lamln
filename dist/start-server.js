@@ -13,7 +13,7 @@ async function startServer() {
 }
 async function start() {
     await migrateDatabases();
-    setup_1.sequelizePsql.sync().then(() => {
+    setup_1.sequelizePsql.sync({ alter: true }).then(() => {
         console.log('create model postgres success');
     }).catch(err => {
         console.log(`postgres fail with message: ${err}`);

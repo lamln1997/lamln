@@ -1,11 +1,11 @@
 import {
     AllowNull,
     AutoIncrement,
-    Column, CreatedAt, DataType, HasMany, Length,
+    Column, CreatedAt, DataType, HasMany, Length, BelongsToMany,
     Model, PrimaryKey,
     Table, Unique, UpdatedAt
 } from "sequelize-typescript"
-import {RolePermission} from "..";
+import {RolePermission, RoleModel} from "..";
 
 @Table({
     tableName: 'permissions',
@@ -43,5 +43,5 @@ export class PermissionModel extends Model<PermissionModel> {
     updated_at!: Date;
 
     @HasMany(() => RolePermission, {constraints: false})
-    roles: RolePermission[]
+    roles_permissions: RolePermission[]
 }

@@ -1,10 +1,19 @@
-import {RoleModel} from '../../../models';
+import {RoleModel, RolePermission, PermissionModel} from '../../../models';
 
 async function createRole(body) {
     try {
-        return await RoleModel.create(body);
+        return await RoleModel.create({
+            name: body.name,
+            description: body.description,
+            roles_permissions: [{
+                permission_id: body.permissions,
+                RolePermission: {
+                    constraints: false
+                }
+            }]
+        }, {include: RolePermission});
     } catch (e) {
-        console.log(`create fail with message: ${e.message}`);
+        console.log(e);
         return null;
     }
 }

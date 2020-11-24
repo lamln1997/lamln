@@ -4,10 +4,19 @@ exports.updateRole = exports.getRoleById = exports.createRole = void 0;
 const models_1 = require("../../../models");
 async function createRole(body) {
     try {
-        return await models_1.RoleModel.create(body);
+        return await models_1.RoleModel.create({
+            name: body.name,
+            description: body.description,
+            roles_permissions: [{
+                    permission_id: body.permissions,
+                    RolePermission: {
+                        constraints: false
+                    }
+                }]
+        }, { include: models_1.RolePermission });
     }
     catch (e) {
-        console.log(`create fail with message: ${e.message}`);
+        console.log(e);
         return null;
     }
 }
@@ -16,7 +25,7 @@ async function getRoleById(id) {
     try {
         return await models_1.RoleModel.findOne({
             where: {
-                id: id
+                id
             }
         });
     }
@@ -30,7 +39,7 @@ async function updateRole(id, body) {
     try {
         return await models_1.RoleModel.update(body, {
             where: {
-                id: id
+                id
             },
             returning: true
         });

@@ -1,12 +1,12 @@
 import {
     AllowNull,
-    AutoIncrement, Column, CreatedAt, DataType, HasMany, Length,
+    AutoIncrement, BelongsToMany, Column, CreatedAt, DataType, HasMany, Length,
     Model, PrimaryKey,
     Table, Unique, UpdatedAt
 } from "sequelize-typescript";
 import {
     UserRole,
-    RolePermission
+    RolePermission, PermissionModel, UserModel
 } from '..'
 @Table({
     tableName: 'roles',
@@ -47,5 +47,8 @@ export class RoleModel extends Model<RoleModel> {
     users: UserRole[]
 
     @HasMany(() => RolePermission, {constraints: false})
-    permissions: RolePermission[]
+    roles_permissions: RolePermission[]
+
+    @BelongsToMany(() => PermissionModel, () => RolePermission)
+    permissions: PermissionModel[]
 }
