@@ -43,9 +43,9 @@ export class UserRole extends Model<UserRole> {
     updated_at!: Date;
 
     //constraints: bo qua cac rang buoc giua cac model
-    // @BelongsTo(() => UserModel, {constraints: false})
-    // user: UserModel
-    //
-    // @BelongsTo(() => RoleModel, {constraints: false})
-    // role: RoleModel
+    @BelongsTo(() => UserModel, {constraints: false})
+    user: UserModel
+
+    @BelongsTo(() => RoleModel, {constraints: false})
+    role: RoleModel
 }

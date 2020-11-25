@@ -11,6 +11,7 @@ exports.validatorRegisterUser = celebrate_1.celebrate({
         last_name: celebrate_1.Joi.string().required(),
         age: celebrate_1.Joi.number(),
         address: celebrate_1.Joi.string().max(255).allow(null, ''),
+        roles: celebrate_1.Joi.array().required()
     }),
 });
 exports.validatorLogin = celebrate_1.celebrate({

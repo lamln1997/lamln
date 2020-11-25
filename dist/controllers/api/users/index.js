@@ -80,6 +80,11 @@ async function login(req, res) {
     response_1.sendSuccess(token, res);
 }
 async function update(req, res) {
+    const isPermission = await middleware_1.checkPermission(req, res, 'user_update');
+    if (!isPermission) {
+        response_1.sendForbiddenRequest(res);
+        return;
+    }
     const body = req.body;
     const id = req.params.id;
     const exist_user = await services_1.getUserById(id);

@@ -74,8 +74,8 @@ export class UserModel extends Model<UserModel> {
     updated_at!: Date;
 
     // constraints: bo qua cac rang buoc giua cac model
-    // @HasMany(() => UserRole, {constraints: false})
-    // roles: UserRole[]
+    @HasMany(() => UserRole, {constraints: false})
+    user_roles: UserRole[]
     @BelongsToMany(() => RoleModel, () => UserRole)
     roles: RoleModel[]
     toJSON(): object {

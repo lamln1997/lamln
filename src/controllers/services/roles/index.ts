@@ -1,17 +1,28 @@
 import {RoleModel, RolePermission, PermissionModel} from '../../../models';
-
+import {
+    sequelizePsql
+} from '../../../setup';
 async function createRole(body) {
     try {
-        return await RoleModel.create({
-            name: body.name,
-            description: body.description,
-            roles_permissions: [{
-                permission_id: body.permissions,
-                RolePermission: {
-                    constraints: false
+        return sequelizePsql.transaction( async transaction => {
+            const role_permissions = [];
+            body.permissions.map(per => {
+                const obj = {
+                    permission_id: parseInt(per),
+                    RolePermission: {
+                        constraints: false
+                    }
                 }
-            }]
-        }, {include: RolePermission});
+                role_permissions.push(obj);
+            })
+            const value = {
+                name: body.name,
+                description: body.description,
+                roles_permissions: role_permissions
+            }
+            // @ts-ignore
+            return RoleModel.create(value, {include: RolePermission, transaction});
+        })
     } catch (e) {
         console.log(e);
         return null;

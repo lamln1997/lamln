@@ -2,18 +2,27 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateRole = exports.getRoleById = exports.createRole = void 0;
 const models_1 = require("../../../models");
+const setup_1 = require("../../../setup");
 async function createRole(body) {
     try {
-        return await models_1.RoleModel.create({
-            name: body.name,
-            description: body.description,
-            roles_permissions: [{
-                    permission_id: body.permissions,
+        return setup_1.sequelizePsql.transaction(async (transaction) => {
+            const role_permissions = [];
+            body.permissions.map(per => {
+                const obj = {
+                    permission_id: parseInt(per),
                     RolePermission: {
                         constraints: false
                     }
-                }]
-        }, { include: models_1.RolePermission });
+                };
+                role_permissions.push(obj);
+            });
+            const value = {
+                name: body.name,
+                description: body.description,
+                roles_permissions: role_permissions
+            };
+            return models_1.RoleModel.create(value, { include: models_1.RolePermission, transaction });
+        });
     }
     catch (e) {
         console.log(e);

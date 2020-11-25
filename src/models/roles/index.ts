@@ -44,7 +44,9 @@ export class RoleModel extends Model<RoleModel> {
 
     //constraints: bo qua cac rang buoc giua cac model
     @HasMany(() => UserRole, {constraints: false})
-    users: UserRole[]
+    user_roles: UserRole[]
+    @BelongsToMany(() => UserModel, () => UserRole)
+    users: UserModel[]
 
     @HasMany(() => RolePermission, {constraints: false})
     roles_permissions: RolePermission[]

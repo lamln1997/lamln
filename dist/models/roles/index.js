@@ -46,6 +46,10 @@ __decorate([
 __decorate([
     sequelize_typescript_1.HasMany(() => __1.UserRole, { constraints: false }),
     __metadata("design:type", Array)
+], RoleModel.prototype, "user_roles", void 0);
+__decorate([
+    sequelize_typescript_1.BelongsToMany(() => __1.UserModel, () => __1.UserRole),
+    __metadata("design:type", Array)
 ], RoleModel.prototype, "users", void 0);
 __decorate([
     sequelize_typescript_1.HasMany(() => __1.RolePermission, { constraints: false }),

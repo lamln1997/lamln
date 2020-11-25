@@ -1,16 +1,40 @@
-import {UserModel} from '../../../models'
+import {UserModel, UserRole, RoleModel, PermissionModel} from '../../../models'
 import { Op } from "sequelize";
+import {sequelizePsql} from '../../../setup';
 
-export async function createUser(body) {
-    console.log('service user');
+async function createUser(body) {
     try {
-        return await UserModel.create(body);
+        return await sequelizePsql.transaction(async transaction => {
+            const user_roles = []
+
+            body.roles.map(item => {
+                const obj = {
+                    role_id: parseInt(item),
+                    UserRole: {
+                        constraints: false
+                    }
+                }
+                user_roles.push(obj);
+            })
+            const value = {
+                phone: body.phone.trim(),
+                email: body.email.trim(),
+                password: body.password,
+                first_name: body.first_name.trim(),
+                last_name: body.last_name.trim(),
+                age: body.age || null,
+                address: body.address ? body.address.trim() : null,
+                user_roles: user_roles
+            }
+            // @ts-ignore
+            return UserModel.create(value, {include: UserRole, transaction});
+        })
     } catch (e) {
         console.log(`create fail with message: ${e.message}`);
         return null;
     }
 }
-export async function checkUniqueData(phone, email) {
+async function checkUniqueData(phone, email) {
     try {
         return await UserModel.findOne({
             where: {
@@ -23,7 +47,7 @@ export async function checkUniqueData(phone, email) {
     }
 }
 
-export async function checkExistPhone(id, phone) {
+async function checkExistPhone(id, phone) {
     try {
         return await UserModel.findOne({
             where: {
@@ -38,7 +62,7 @@ export async function checkExistPhone(id, phone) {
         return null;
     }
 }
-export async function checkExistEmail(id, email) {
+async function checkExistEmail(id, email) {
     try {
         return await UserModel.findOne({
             where: {
@@ -53,7 +77,7 @@ export async function checkExistEmail(id, email) {
         return null;
     }
 }
-export async function getUserByPhone(phone) {
+async function getUserByPhone(phone) {
     try {
         return await UserModel.findOne({
             where: {
@@ -66,12 +90,28 @@ export async function getUserByPhone(phone) {
     }
 }
 
-export async function getUserById(id) {
+async function getUserById(id, permission?: string) {
     try {
+        // @ts-ignore
         return await UserModel.findOne({
             where: {
                 id: id
-            }
+            },
+            // @ts-ignore
+            include: [
+                {
+                    model: RoleModel,
+                    through: {attributes: []},
+                    include: [
+                        {
+                            model: PermissionModel,
+                            where: {
+                                name: `${permission}`
+                            }
+                        }
+                    ]
+                }
+            ]
         })
     } catch (e) {
         console.log(`get user by id fail with message: ${e.message}`);
@@ -79,7 +119,7 @@ export async function getUserById(id) {
     }
 }
 
-export async function updateUserById(id, body) {
+async function updateUserById(id, body) {
     try {
         return await UserModel.update(body,{
             where: {
@@ -93,7 +133,7 @@ export async function updateUserById(id, body) {
     }
 }
 
-export async function deleteUserById(id) {
+async function deleteUserById(id) {
     try {
         return await UserModel.destroy({
             where: {
@@ -105,8 +145,7 @@ export async function deleteUserById(id) {
         return null;
     }
 }
-
-module.exports = {
+export {
     createUser,
     checkUniqueData,
     getUserByPhone,

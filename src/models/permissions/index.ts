@@ -5,7 +5,7 @@ import {
     Model, PrimaryKey,
     Table, Unique, UpdatedAt
 } from "sequelize-typescript"
-import {RolePermission, RoleModel} from "..";
+import {RolePermission, RoleModel, UserRole} from "..";
 
 @Table({
     tableName: 'permissions',
@@ -44,4 +44,7 @@ export class PermissionModel extends Model<PermissionModel> {
 
     @HasMany(() => RolePermission, {constraints: false})
     roles_permissions: RolePermission[]
+
+    @BelongsToMany(() => RoleModel, () => RolePermission)
+    roles: RoleModel[]
 }

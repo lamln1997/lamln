@@ -44,6 +44,14 @@ __decorate([
     sequelize_typescript_1.Column(sequelize_typescript_1.DataType.DATE),
     __metadata("design:type", Date)
 ], UserRole.prototype, "updated_at", void 0);
+__decorate([
+    sequelize_typescript_1.BelongsTo(() => __1.UserModel, { constraints: false }),
+    __metadata("design:type", __1.UserModel)
+], UserRole.prototype, "user", void 0);
+__decorate([
+    sequelize_typescript_1.BelongsTo(() => __1.RoleModel, { constraints: false }),
+    __metadata("design:type", __1.RoleModel)
+], UserRole.prototype, "role", void 0);
 UserRole = __decorate([
     sequelize_typescript_1.Table({
         tableName: 'user_roles',

@@ -9,6 +9,7 @@ export const validatorRegisterUser = celebrate({
         last_name: Joi.string().required(),
         age: Joi.number(),
         address: Joi.string().max(255).allow(null, ''),
+        roles: Joi.array().required()
     }),
 })
 

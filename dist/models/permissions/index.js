@@ -47,6 +47,10 @@ __decorate([
     sequelize_typescript_1.HasMany(() => __1.RolePermission, { constraints: false }),
     __metadata("design:type", Array)
 ], PermissionModel.prototype, "roles_permissions", void 0);
+__decorate([
+    sequelize_typescript_1.BelongsToMany(() => __1.RoleModel, () => __1.RolePermission),
+    __metadata("design:type", Array)
+], PermissionModel.prototype, "roles", void 0);
 PermissionModel = __decorate([
     sequelize_typescript_1.Table({
         tableName: 'permissions',

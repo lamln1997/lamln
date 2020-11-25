@@ -9,10 +9,11 @@ import {
 import {
     sendSuccess,
     sendBadRequest,
-    sendInternalServerErrorRequest
+    sendInternalServerErrorRequest, sendForbiddenRequest
 } from '../../../response'
 import {
-    checkToken
+    checkToken,
+    checkPermission
 } from '../../middleware'
 import {
     createUser,
@@ -84,6 +85,11 @@ async function login(req: express.Request, res: express.Response) {
 }
 
 async function update(req: express.Request, res: express.Response) {
+    const isPermission = await checkPermission(req, res, 'user_update');
+    if (!isPermission) {
+        sendForbiddenRequest(res);
+        return;
+    }
     const body = req.body;
     const id = req.params.id;
     const exist_user = await getUserById(id);
