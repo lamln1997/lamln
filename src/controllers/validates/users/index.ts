@@ -28,6 +28,7 @@ export const validatorUpdate = celebrate({
         last_name: Joi.string().required().max(255),
         age: Joi.number(),
         address: Joi.string().max(255).allow(null, ''),
+        roles: Joi.array().required()
     })
 })
 

@@ -28,6 +28,7 @@ exports.validatorUpdate = celebrate_1.celebrate({
         last_name: celebrate_1.Joi.string().required().max(255),
         age: celebrate_1.Joi.number(),
         address: celebrate_1.Joi.string().max(255).allow(null, ''),
+        roles: celebrate_1.Joi.array().required()
     })
 });
 module.exports = {

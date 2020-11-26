@@ -6,23 +6,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.start = void 0;
 const app_1 = __importDefault(require("./app"));
 const setup_1 = require("./setup");
+const amqp = require('amqplib/callback_api');
 async function startServer() {
     return app_1.default.listen(app_1.default.get("port"), () => {
         console.log(`=========== App is running at port ${app_1.default.get('port')} ==========`);
     });
 }
 async function start() {
-    await migrateDatabases();
-    setup_1.sequelizePsql.sync({ alter: true }).then(() => {
-        console.log('create model postgres success');
-    }).catch(err => {
-        console.log(`postgres fail with message: ${err}`);
-    });
-    return Promise.all([startServer()]);
+    return Promise.all([startServer(), connectRabbitMq()]);
 }
 exports.start = start;
 async function migrateDatabases() {
     return setup_1.addModelToDatabase();
+}
+async function connectRabbitMq() {
+    return amqp.connect('amqp://localhost', (error, connect) => {
+        if (error) {
+            console.log(`==========connect rabbit fail with message: ${error}===========`);
+        }
+        if (connect) {
+            console.log(`======connect rabbit thanh cong =========`);
+        }
+    });
 }
 module.exports = {
     start

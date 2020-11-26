@@ -35,6 +35,11 @@ userRouter.put('/update/:id', middleware_1.checkToken, index_1.validatorUpdate, 
 userRouter.delete('/delete/:id', middleware_1.checkToken, deleteUser);
 async function register(req, res) {
     try {
+        const isPermission = await middleware_1.checkPermission(req, res, 'user_register');
+        if (!isPermission) {
+            response_1.sendForbiddenRequest(res);
+            return;
+        }
         const body = req.body;
         const userByPhonel = await services_1.checkUniqueData(req.body.phone, req.body.email);
         if (userByPhonel) {
@@ -71,7 +76,7 @@ async function login(req, res) {
         return;
     }
     const exp = 24 * 60 * 60;
-    let token = jwt.sign({
+    const token = jwt.sign({
         id: user.id,
         phone: user.phone,
     }, process.env.secret_token, {
@@ -106,8 +111,14 @@ async function update(req, res) {
     response_1.sendSuccess(user_new, res);
 }
 async function deleteUser(req, res) {
+    const isPermission = await middleware_1.checkPermission(req, res, 'user_delete');
+    console.log(`=========${isPermission} =============`);
+    if (!isPermission) {
+        response_1.sendForbiddenRequest(res);
+        return;
+    }
     const id = req.params.id;
-    const authHeader = req.headers['authorization'];
+    const authHeader = req.headers.authorization;
     const token = authHeader.split(' ')[1];
     let decoded;
     decoded = jwt.verify(token, process.env.secret_token);

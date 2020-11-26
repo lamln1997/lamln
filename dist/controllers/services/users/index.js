@@ -25,7 +25,7 @@ async function createUser(body) {
                 last_name: body.last_name.trim(),
                 age: body.age || null,
                 address: body.address ? body.address.trim() : null,
-                user_roles: user_roles
+                user_roles
             };
             return models_1.UserModel.create(value, { include: models_1.UserRole, transaction });
         });
@@ -40,7 +40,7 @@ async function checkUniqueData(phone, email) {
     try {
         return await models_1.UserModel.findOne({
             where: {
-                [sequelize_1.Op.or]: [{ phone: phone }, { email: email }]
+                [sequelize_1.Op.or]: [{ phone }, { email }]
             }
         });
     }
@@ -54,7 +54,7 @@ async function checkExistPhone(id, phone) {
     try {
         return await models_1.UserModel.findOne({
             where: {
-                phone: phone,
+                phone,
                 id: {
                     [sequelize_1.Op.ne]: id
                 }
@@ -71,7 +71,7 @@ async function checkExistEmail(id, email) {
     try {
         return await models_1.UserModel.findOne({
             where: {
-                email: email,
+                email,
                 id: {
                     [sequelize_1.Op.ne]: id
                 }
@@ -102,7 +102,7 @@ async function getUserById(id, permission) {
     try {
         return await models_1.UserModel.findOne({
             where: {
-                id: id
+                id
             },
             include: [
                 {
@@ -130,7 +130,7 @@ async function updateUserById(id, body) {
     try {
         return await models_1.UserModel.update(body, {
             where: {
-                id: id
+                id
             },
             returning: true
         });
@@ -145,7 +145,7 @@ async function deleteUserById(id) {
     try {
         return await models_1.UserModel.destroy({
             where: {
-                id: id
+                id
             }
         });
     }

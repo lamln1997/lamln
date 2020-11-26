@@ -34,6 +34,11 @@ userRouter.delete('/delete/:id', checkToken, deleteUser)
 
 async function register(req: express.Request, res: express.Response) {
     try {
+        const isPermission = await checkPermission(req, res, 'user_register');
+        if (!isPermission) {
+            sendForbiddenRequest(res);
+            return;
+        }
         const body = req.body;
         const userByPhonel = await checkUniqueData(req.body.phone, req.body.email)
         if (userByPhonel) {
@@ -42,6 +47,7 @@ async function register(req: express.Request, res: express.Response) {
             return;
         }
         const saltRounds = 10;
+        // tslint:disable-next-line:variable-name
         let salt_key = '';
         await bcrypt.genSalt(saltRounds).then(
             salt => {
@@ -57,12 +63,13 @@ async function register(req: express.Request, res: express.Response) {
         sendInternalServerErrorRequest(res)
     }
 }
+
 async function login(req: express.Request, res: express.Response) {
     const phone = req.body.phone.trim();
     const password = req.body.password.trim();
     const user = await getUserByPhone(phone);
     if (!user) {
-        sendBadRequest(res,'Số điện thoại không đúng');
+        sendBadRequest(res, 'Số điện thoại không đúng');
         return;
     }
     const match = await bcrypt.compare(password, user.password);
@@ -71,7 +78,7 @@ async function login(req: express.Request, res: express.Response) {
         return;
     }
     const exp = 24 * 60 * 60;
-    let token = jwt.sign(
+    const token = jwt.sign(
         {
             id: user.id,
             phone: user.phone,
@@ -92,31 +99,42 @@ async function update(req: express.Request, res: express.Response) {
     }
     const body = req.body;
     const id = req.params.id;
+    // tslint:disable-next-line:variable-name
     const exist_user = await getUserById(id);
     if (!exist_user) {
         sendBadRequest(res, `id ${id} không tồn tại`);
         return;
     }
+    // tslint:disable-next-line:variable-name
     const exist_phone = await checkExistPhone(id, body.phone);
     if (exist_phone) {
         sendBadRequest(res, 'Số điện thoại đã tồn tại');
         return;
     }
+    // tslint:disable-next-line:variable-name
     const exist_email = await checkExistEmail(id, body.email.trim());
     if (exist_email) {
         sendBadRequest(res, 'Email đã tồn tại')
     }
     await updateUserById(id, body);
+    // tslint:disable-next-line:variable-name
     const user_new = await getUserById(id);
     sendSuccess(user_new, res)
 }
 
 async function deleteUser(req: express.Request, res: express.Response) {
+    const isPermission = await checkPermission(req, res, 'user_delete');
+    console.log(`=========${isPermission} =============`);
+    if (!isPermission) {
+        sendForbiddenRequest(res);
+        return;
+    }
     const id = req.params.id;
-    const authHeader = req.headers['authorization'];
+    const authHeader = req.headers.authorization;
     const token = authHeader.split(' ')[1];
     let decoded;
     decoded = jwt.verify(token, process.env.secret_token);
+    // tslint:disable-next-line:radix
     if (parseInt(id) === parseInt(decoded.id)) {
         sendBadRequest(res, `Không thể xóa user có id ${id}`);
         return;
@@ -128,4 +146,5 @@ async function deleteUser(req: express.Request, res: express.Response) {
     }
     sendBadRequest(res, `id ${id} không tồn tại`);
 }
+
 export {userRouter};

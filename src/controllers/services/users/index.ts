@@ -5,10 +5,12 @@ import {sequelizePsql} from '../../../setup';
 async function createUser(body) {
     try {
         return await sequelizePsql.transaction(async transaction => {
+            // tslint:disable-next-line:variable-name
             const user_roles = []
 
             body.roles.map(item => {
                 const obj = {
+                    // tslint:disable-next-line:radix
                     role_id: parseInt(item),
                     UserRole: {
                         constraints: false
@@ -24,7 +26,7 @@ async function createUser(body) {
                 last_name: body.last_name.trim(),
                 age: body.age || null,
                 address: body.address ? body.address.trim() : null,
-                user_roles: user_roles
+                user_roles
             }
             // @ts-ignore
             return UserModel.create(value, {include: UserRole, transaction});
@@ -38,7 +40,7 @@ async function checkUniqueData(phone, email) {
     try {
         return await UserModel.findOne({
             where: {
-                [Op.or]: [{phone: phone}, {email: email}]
+                [Op.or]: [{phone}, {email}]
             }
         });
     } catch (e) {
@@ -51,7 +53,7 @@ async function checkExistPhone(id, phone) {
     try {
         return await UserModel.findOne({
             where: {
-                phone: phone,
+                phone,
                 id: {
                     [Op.ne]: id
                 }
@@ -66,7 +68,7 @@ async function checkExistEmail(id, email) {
     try {
         return await UserModel.findOne({
             where: {
-                email: email,
+                email,
                 id: {
                     [Op.ne]: id
                 }
@@ -95,7 +97,7 @@ async function getUserById(id, permission?: string) {
         // @ts-ignore
         return await UserModel.findOne({
             where: {
-                id: id
+                id
             },
             // @ts-ignore
             include: [
@@ -123,7 +125,7 @@ async function updateUserById(id, body) {
     try {
         return await UserModel.update(body,{
             where: {
-                id: id
+                id
             },
             returning: true
         })
@@ -137,7 +139,7 @@ async function deleteUserById(id) {
     try {
         return await UserModel.destroy({
             where: {
-                id: id
+                id
             }
         })
     } catch (e) {

@@ -5,9 +5,11 @@ import {
 async function createRole(body) {
     try {
         return sequelizePsql.transaction( async transaction => {
+            // tslint:disable-next-line:variable-name
             const role_permissions = [];
             body.permissions.map(per => {
                 const obj = {
+                    // tslint:disable-next-line:radix
                     permission_id: parseInt(per),
                     RolePermission: {
                         constraints: false
