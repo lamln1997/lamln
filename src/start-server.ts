@@ -25,12 +25,25 @@ async function  migrateDatabases() {
     return addModelToDatabase();
 }
 async function connectRabbitMq() {
-    return amqp.connect('amqp://localhost', (error, connect) => {
+    return amqp.connect('amqp://localhost', (error, connection) => {
         if (error) {
             console.log(`==========connect rabbit fail with message: ${error}===========`);
         }
-        if (connect) {
+        if (connection) {
             console.log(`======connect rabbit thanh cong =========`);
+            connection.createChannel((errCreateChannel, channel) => {
+                if (errCreateChannel) {
+                    console.log('===========fail create channel =========');
+                }
+                if (channel) {
+                    const queue = 'Queue đầu tiên lâm tạo';
+                    const msg = 'Đồng bộ user lên elasticsearch';
+                    channel.assertQueue(queue, {
+                        durable: false
+                    });
+                    channel.sendToQueue(queue, Buffer.from(msg));
+                }
+            })
         }
     });
 }
