@@ -31,12 +31,16 @@ async function connectRabbitMq() {
                     console.log('===========fail create channel =========');
                 }
                 if (channel) {
-                    const queue = 'Queue đầu tiên lâm tạo';
-                    const msg = 'Đồng bộ user lên elasticsearch';
-                    channel.assertQueue(queue, {
+                    const queuePusblish = 'Queue thứ 2';
+                    const msg = 'Buồn làm chi em ơi';
+                    channel.assertQueue(queuePusblish, {
                         durable: false
                     });
-                    channel.sendToQueue(queue, Buffer.from(msg));
+                    channel.sendToQueue(queuePusblish, Buffer.from(msg));
+                    const queueSubscribe = 'Queue thứ 3';
+                    channel.consume(queueSubscribe, (message) => {
+                        console.log(message.content.toString());
+                    });
                 }
             });
         }
