@@ -1,7 +1,7 @@
 import app from "./app";
 import {
     addModelToDatabase,
-    sequelizePsql
+    sequelizePsql,
 } from './setup'
 // tslint:disable-next-line:no-var-requires
 const amqp = require('amqplib/callback_api');
@@ -19,7 +19,7 @@ export  async function start() {
     // }).catch(err => {
     //     console.log(`postgres fail with message: ${err}` )
     // })
-    return Promise.all([startServer(), connectRabbitMq()])
+    return Promise.all([startServer()])
 }
 async function  migrateDatabases() {
     return addModelToDatabase();
@@ -36,14 +36,14 @@ async function connectRabbitMq() {
                     console.log('===========fail create channel =========');
                 }
                 if (channel) {
-                    const queuePusblish= 'Queue thứ 2';
+                    const queuePusblish= 'Queue thứ 1 ngày 30/11';
                     const msg = 'Buồn làm chi em ơi';
                     channel.assertQueue(queuePusblish, {
                         durable: false
                     });
                     // gui queue
                     channel.sendToQueue(queuePusblish, Buffer.from(msg));
-                    const queueSubscribe = 'Queue thứ 3';
+                    const queueSubscribe = 'Queue thứ 2';
                     // lang nghe queue
                     channel.consume(queueSubscribe, (message) => {
                         console.log(message.content.toString())

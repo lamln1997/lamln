@@ -13,7 +13,7 @@ async function startServer() {
     });
 }
 async function start() {
-    return Promise.all([startServer(), connectRabbitMq()]);
+    return Promise.all([startServer()]);
 }
 exports.start = start;
 async function migrateDatabases() {
@@ -31,13 +31,13 @@ async function connectRabbitMq() {
                     console.log('===========fail create channel =========');
                 }
                 if (channel) {
-                    const queuePusblish = 'Queue thứ 2';
+                    const queuePusblish = 'Queue thứ 1 ngày 30/11';
                     const msg = 'Buồn làm chi em ơi';
                     channel.assertQueue(queuePusblish, {
                         durable: false
                     });
                     channel.sendToQueue(queuePusblish, Buffer.from(msg));
-                    const queueSubscribe = 'Queue thứ 3';
+                    const queueSubscribe = 'Queue thứ 2';
                     channel.consume(queueSubscribe, (message) => {
                         console.log(message.content.toString());
                     });

@@ -1,3 +1,4 @@
+// tslint:disable-next-line:no-var-requires
 const {databasePsql} = require('../config/databases')
 import {Sequelize} from 'sequelize-typescript'
 import {
