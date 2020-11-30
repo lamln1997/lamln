@@ -19,19 +19,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.consumeQueue = exports.startRabbit = void 0;
+exports.setupRabbit = void 0;
 const rabbitmq_1 = require("../config/rabbitmq");
 const amqp = __importStar(require("amqplib/callback_api"));
-const msg = `Tin nhắn lâm tạo bằng tay`;
-const assertQueueOptions = {
-    durable: true
-};
-const sendQueueOptions = {
-    persistent: true
-};
-const consumeQueueOptions = {
-    noAck: false
-};
 async function connectRabbit() {
     return new Promise((resolve, reject) => {
         amqp.connect(rabbitmq_1.rabbitmqConfig.url, (err, connection) => {
@@ -48,26 +38,10 @@ async function createChannel(connection) {
     channel.prefetch(1);
     return channel;
 }
-async function SendToQueue(channel) {
-    channel.assertQueue(rabbitmq_1.rabbitmqConfig.nameQueue, assertQueueOptions);
-    channel.sendToQueue(rabbitmq_1.rabbitmqConfig.nameQueue, Buffer.from(msg), sendQueueOptions);
-}
-async function startRabbit() {
+async function setupRabbit() {
     const connection = await connectRabbit();
     const channel = await createChannel(connection);
-    SendToQueue(channel).then(() => { console.log('send queue thanh cong'); });
     console.log('============connect rabbit mq =============');
+    return channel;
 }
-exports.startRabbit = startRabbit;
-async function consumeQueue() {
-    const connection = await connectRabbit();
-    const channel = await createChannel(connection);
-    channel.assertQueue(rabbitmq_1.rabbitmqConfig.nameQueue, assertQueueOptions);
-    const message = new Promise(resolve => {
-        channel.consume(rabbitmq_1.rabbitmqConfig.nameQueue, (msgAck => {
-            resolve(msgAck.content.toString());
-        }), consumeQueueOptions);
-    });
-    message.then(content => console.log(content));
-}
-exports.consumeQueue = consumeQueue;
+exports.setupRabbit = setupRabbit;
