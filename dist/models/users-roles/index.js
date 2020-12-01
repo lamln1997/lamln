@@ -9,10 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserRole = void 0;
+exports.UserRoleModel = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
 const __1 = require("..");
-let UserRole = class UserRole extends sequelize_typescript_1.Model {
+let UserRoleModel = class UserRoleModel extends sequelize_typescript_1.Model {
 };
 __decorate([
     sequelize_typescript_1.PrimaryKey,
@@ -21,38 +21,38 @@ __decorate([
     sequelize_typescript_1.AutoIncrement,
     sequelize_typescript_1.Column,
     __metadata("design:type", Number)
-], UserRole.prototype, "id", void 0);
+], UserRoleModel.prototype, "id", void 0);
 __decorate([
     sequelize_typescript_1.ForeignKey(() => __1.UserModel),
     sequelize_typescript_1.AllowNull(false),
     sequelize_typescript_1.Column,
     __metadata("design:type", Number)
-], UserRole.prototype, "user_id", void 0);
+], UserRoleModel.prototype, "user_id", void 0);
 __decorate([
     sequelize_typescript_1.ForeignKey(() => __1.RoleModel),
     sequelize_typescript_1.AllowNull(false),
     sequelize_typescript_1.Column,
     __metadata("design:type", Number)
-], UserRole.prototype, "role_id", void 0);
+], UserRoleModel.prototype, "role_id", void 0);
 __decorate([
     sequelize_typescript_1.CreatedAt,
     sequelize_typescript_1.Column(sequelize_typescript_1.DataType.DATE),
     __metadata("design:type", Date)
-], UserRole.prototype, "created_at", void 0);
+], UserRoleModel.prototype, "created_at", void 0);
 __decorate([
     sequelize_typescript_1.UpdatedAt,
     sequelize_typescript_1.Column(sequelize_typescript_1.DataType.DATE),
     __metadata("design:type", Date)
-], UserRole.prototype, "updated_at", void 0);
+], UserRoleModel.prototype, "updated_at", void 0);
 __decorate([
     sequelize_typescript_1.BelongsTo(() => __1.UserModel, { constraints: false }),
     __metadata("design:type", __1.UserModel)
-], UserRole.prototype, "user", void 0);
+], UserRoleModel.prototype, "user", void 0);
 __decorate([
     sequelize_typescript_1.BelongsTo(() => __1.RoleModel, { constraints: false }),
     __metadata("design:type", __1.RoleModel)
-], UserRole.prototype, "role", void 0);
-UserRole = __decorate([
+], UserRoleModel.prototype, "role", void 0);
+UserRoleModel = __decorate([
     sequelize_typescript_1.Table({
         tableName: 'user_roles',
         indexes: [
@@ -61,5 +61,5 @@ UserRole = __decorate([
             }
         ]
     })
-], UserRole);
-exports.UserRole = UserRole;
+], UserRoleModel);
+exports.UserRoleModel = UserRoleModel;

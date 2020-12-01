@@ -16,7 +16,7 @@ import {
     ]
 })
 
-export class UserRole extends Model<UserRole> {
+export class UserRoleModel extends Model<UserRoleModel> {
     @PrimaryKey
     @Unique
     @AllowNull(false)
@@ -42,7 +42,7 @@ export class UserRole extends Model<UserRole> {
     @Column(DataType.DATE)
     updated_at!: Date;
 
-    //constraints: bo qua cac rang buoc giua cac model
+    // constraints: bo qua cac rang buoc giua cac model
     @BelongsTo(() => UserModel, {constraints: false})
     user: UserModel
 

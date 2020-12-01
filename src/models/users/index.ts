@@ -11,7 +11,7 @@ import {
 } from "sequelize-typescript";
 import {
     RoleModel,
-    UserRole
+    UserRoleModel
 } from '..'
 @Table({
     tableName: "user",
@@ -74,9 +74,9 @@ export class UserModel extends Model<UserModel> {
     updated_at!: Date;
 
     // constraints: bo qua cac rang buoc giua cac model
-    @HasMany(() => UserRole, {constraints: false})
-    user_roles: UserRole[]
-    @BelongsToMany(() => RoleModel, () => UserRole)
+    @HasMany(() => UserRoleModel, {constraints: false})
+    user_roles: UserRoleModel[]
+    @BelongsToMany(() => RoleModel, () => UserRoleModel)
     roles: RoleModel[]
     toJSON(): object {
         const obj: any = super.toJSON();

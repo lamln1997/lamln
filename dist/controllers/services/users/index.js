@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUserById = exports.checkExistEmail = exports.checkExistPhone = exports.updateUserById = exports.getUserById = exports.getUserByPhone = exports.checkUniqueData = exports.createUser = void 0;
+exports.insertDataToElasticSearch = exports.getAllUser = exports.deleteUserById = exports.checkExistEmail = exports.checkExistPhone = exports.updateUserById = exports.getUserById = exports.getUserByPhone = exports.checkUniqueData = exports.createUser = void 0;
 const models_1 = require("../../../models");
 const sequelize_1 = require("sequelize");
 const setup_1 = require("../../../setup");
+const setup_2 = require("../../../setup");
 async function createUser(body) {
     try {
         return await setup_1.sequelizePsql.transaction(async (transaction) => {
@@ -11,7 +12,7 @@ async function createUser(body) {
             body.roles.map(item => {
                 const obj = {
                     role_id: parseInt(item),
-                    UserRole: {
+                    UserRoleModel: {
                         constraints: false
                     }
                 };
@@ -27,7 +28,7 @@ async function createUser(body) {
                 address: body.address ? body.address.trim() : null,
                 user_roles
             };
-            return models_1.UserModel.create(value, { include: models_1.UserRole, transaction });
+            return models_1.UserModel.create(value, { include: models_1.UserRoleModel, transaction });
         });
     }
     catch (e) {
@@ -155,3 +156,36 @@ async function deleteUserById(id) {
     }
 }
 exports.deleteUserById = deleteUserById;
+async function getAllUser() {
+    try {
+        return await models_1.UserModel.findAll();
+    }
+    catch (e) {
+        console.log(`===get all user fail with error: ${e.message}`);
+        return null;
+    }
+}
+exports.getAllUser = getAllUser;
+async function insertDataToElasticSearch() {
+    setup_2.searchClient.indices.delete({
+        index: 'users'
+    }).then(res => {
+        console.log(`===== delete index user SUCCESS ==========`);
+        createIndexUsersInElasticsearch();
+    }).catch(() => {
+        console.log(`===== delete index user FAIL ==========`);
+        createIndexUsersInElasticsearch();
+    });
+}
+exports.insertDataToElasticSearch = insertDataToElasticSearch;
+async function createIndexUsersInElasticsearch() {
+    const users = await models_1.UserModel.findAll();
+    for (const user of users) {
+        setup_2.searchClient.index({
+            index: 'users',
+            body: {
+                body: user
+            }
+        });
+    }
+}

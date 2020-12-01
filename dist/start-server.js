@@ -14,7 +14,13 @@ async function startServer() {
     });
 }
 async function start() {
-    return Promise.all([startServer(), queues_1.sendToQueue()]);
+    await migrateDatabases();
+    setup_1.sequelizePsql.sync({ alter: true }).then(() => {
+        console.log('create model postgres success');
+    }).catch(err => {
+        console.log(`postgres fail with message: ${err}`);
+    });
+    return Promise.all([startServer(), queues_1.consumeQueue('insertDataElasticsearch')]);
 }
 exports.start = start;
 async function migrateDatabases() {

@@ -10,11 +10,11 @@ const assertQueueOptions = {
 const sendQueueOptions = {
     persistent: true
 }
-const messageQueue = 'Đồng bộ data từ postgres lên elasticsearch';
-async function sendToQueue() {
+async function sendToQueue(nameQueue, messageQueue: string) {
     const channel = await setupRabbit();
-    channel.assertQueue(rabbitmqConfig.nameQueue, assertQueueOptions);
-    channel.sendToQueue(rabbitmqConfig.nameQueue, Buffer.from(messageQueue), sendQueueOptions);
+    channel.assertQueue(nameQueue, assertQueueOptions);
+    channel.sendToQueue(nameQueue, Buffer.from(messageQueue), sendQueueOptions);
+    console.log('========send queue success =======');
 }
 
 export {

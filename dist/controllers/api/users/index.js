@@ -33,9 +33,14 @@ userRouter.post('/register', index_1.validatorRegisterUser, register);
 userRouter.post('/login', index_1.validatorLogin, login);
 userRouter.put('/update/:id', middleware_1.checkToken, index_1.validatorUpdate, update);
 userRouter.delete('/delete/:id', middleware_1.checkToken, deleteUser);
+userRouter.get('/list', middleware_1.checkToken, getUsers);
+async function getUsers(req, res) {
+    const offset = req.query.offset || 0;
+    const limit = req.query.limit || 10;
+}
 async function register(req, res) {
     try {
-        const isPermission = await middleware_1.checkPermission(req, res, 'user_register');
+        const isPermission = await middleware_1.checkPermission(req, res, 'user_create');
         if (!isPermission) {
             response_1.sendForbiddenRequest(res);
             return;

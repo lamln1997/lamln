@@ -41,7 +41,6 @@ async function createChannel(connection) {
 async function setupRabbit() {
     const connection = await connectRabbit();
     const channel = await createChannel(connection);
-    console.log('============connect rabbit mq =============');
     return channel;
 }
 exports.setupRabbit = setupRabbit;

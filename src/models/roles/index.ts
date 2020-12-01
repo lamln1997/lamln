@@ -5,7 +5,7 @@ import {
     Table, Unique, UpdatedAt
 } from "sequelize-typescript";
 import {
-    UserRole,
+    UserRoleModel,
     RolePermission, PermissionModel, UserModel
 } from '..'
 @Table({
@@ -43,9 +43,9 @@ export class RoleModel extends Model<RoleModel> {
     updated_at!: Date;
 
     //constraints: bo qua cac rang buoc giua cac model
-    @HasMany(() => UserRole, {constraints: false})
-    user_roles: UserRole[]
-    @BelongsToMany(() => UserModel, () => UserRole)
+    @HasMany(() => UserRoleModel, {constraints: false})
+    user_roles: UserRoleModel[]
+    @BelongsToMany(() => UserModel, () => UserRoleModel)
     users: UserModel[]
 
     @HasMany(() => RolePermission, {constraints: false})

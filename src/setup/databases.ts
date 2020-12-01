@@ -6,7 +6,7 @@ import {
     RoleModel,
     PermissionModel,
     RolePermission,
-    UserRole
+    UserRoleModel
 } from '../models'
 export const sequelizePsql = new Sequelize({
     ...databasePsql
@@ -16,7 +16,7 @@ const modelsPsql = [
     RoleModel,
     PermissionModel,
     RolePermission,
-    UserRole
+    UserRoleModel
 ]
 export const addModelToDatabase = () => {
     sequelizePsql.addModels(modelsPsql)

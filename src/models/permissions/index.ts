@@ -5,7 +5,7 @@ import {
     Model, PrimaryKey,
     Table, Unique, UpdatedAt
 } from "sequelize-typescript"
-import {RolePermission, RoleModel, UserRole} from "..";
+import {RolePermission, RoleModel, UserRoleModel} from "..";
 
 @Table({
     tableName: 'permissions',

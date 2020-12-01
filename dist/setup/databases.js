@@ -12,7 +12,7 @@ const modelsPsql = [
     models_1.RoleModel,
     models_1.PermissionModel,
     models_1.RolePermission,
-    models_1.UserRole
+    models_1.UserRoleModel
 ];
 exports.addModelToDatabase = () => {
     exports.sequelizePsql.addModels(modelsPsql);

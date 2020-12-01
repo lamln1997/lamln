@@ -1,7 +1,10 @@
-import {UserModel, UserRole, RoleModel, PermissionModel} from '../../../models'
+import {UserModel, UserRoleModel, RoleModel, PermissionModel} from '../../../models'
 import { Op } from "sequelize";
 import {sequelizePsql} from '../../../setup';
-
+import {
+    elasticsearch,
+    searchClient
+} from '../../../setup';
 async function createUser(body) {
     try {
         return await sequelizePsql.transaction(async transaction => {
@@ -12,7 +15,7 @@ async function createUser(body) {
                 const obj = {
                     // tslint:disable-next-line:radix
                     role_id: parseInt(item),
-                    UserRole: {
+                    UserRoleModel: {
                         constraints: false
                     }
                 }
@@ -29,7 +32,7 @@ async function createUser(body) {
                 user_roles
             }
             // @ts-ignore
-            return UserModel.create(value, {include: UserRole, transaction});
+            return UserModel.create(value, {include: UserRoleModel, transaction});
         })
     } catch (e) {
         console.log(`create fail with message: ${e.message}`);
@@ -147,6 +150,37 @@ async function deleteUserById(id) {
         return null;
     }
 }
+
+async function getAllUser() {
+    try {
+        return await UserModel.findAll();
+    } catch (e) {
+        console.log(`===get all user fail with error: ${e.message}`);
+        return null;
+    }
+}
+async function insertDataToElasticSearch() {
+    searchClient.indices.delete({
+        index: 'users'
+    }).then(res => {
+        console.log(`===== delete index user SUCCESS ==========`);
+        createIndexUsersInElasticsearch()
+    }).catch(() => {
+        console.log(`===== delete index user FAIL ==========`);
+        createIndexUsersInElasticsearch()
+    })
+}
+async function createIndexUsersInElasticsearch() {
+    const users = await UserModel.findAll();
+    for (const user of users) {
+        searchClient.index({
+            index: 'users',
+            body: {
+                body: user
+            }
+        });
+    }
+}
 export {
     createUser,
     checkUniqueData,
@@ -155,6 +189,8 @@ export {
     updateUserById,
     checkExistPhone,
     checkExistEmail,
-    deleteUserById
+    deleteUserById,
+    getAllUser,
+    insertDataToElasticSearch
 }
 

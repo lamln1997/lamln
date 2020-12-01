@@ -12,3 +12,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./databases"), exports);
 __exportStar(require("./rabbitmq"), exports);
+__exportStar(require("./dispatchQueueElastic"), exports);
+__exportStar(require("./elasticsearch"), exports);

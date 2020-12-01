@@ -44,11 +44,11 @@ __decorate([
     __metadata("design:type", Date)
 ], RoleModel.prototype, "updated_at", void 0);
 __decorate([
-    sequelize_typescript_1.HasMany(() => __1.UserRole, { constraints: false }),
+    sequelize_typescript_1.HasMany(() => __1.UserRoleModel, { constraints: false }),
     __metadata("design:type", Array)
 ], RoleModel.prototype, "user_roles", void 0);
 __decorate([
-    sequelize_typescript_1.BelongsToMany(() => __1.UserModel, () => __1.UserRole),
+    sequelize_typescript_1.BelongsToMany(() => __1.UserModel, () => __1.UserRoleModel),
     __metadata("design:type", Array)
 ], RoleModel.prototype, "users", void 0);
 __decorate([
