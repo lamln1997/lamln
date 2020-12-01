@@ -151,9 +151,21 @@ async function deleteUserById(id) {
     }
 }
 
-async function getAllUser() {
+async function getUsersService(query) {
     try {
-        return await UserModel.findAll();
+        return await searchClient.search({
+            index: 'users',
+            from: query.offset,
+            size: query.limit,
+            body: {
+                query: {
+                    multi_match: {
+                        query: query.last_name,
+                        fields: ['last_name']
+                    }
+                }
+            }
+        })
     } catch (e) {
         console.log(`===get all user fail with error: ${e.message}`);
         return null;
@@ -190,7 +202,7 @@ export {
     checkExistPhone,
     checkExistEmail,
     deleteUserById,
-    getAllUser,
+    getUsersService,
     insertDataToElasticSearch
 }
 

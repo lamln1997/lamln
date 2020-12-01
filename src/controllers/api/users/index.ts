@@ -23,7 +23,8 @@ import {
     updateUserById,
     checkExistPhone,
     checkExistEmail,
-    deleteUserById
+    deleteUserById,
+    getUsersService
 } from "../../services";
 
 const userRouter = express.Router();
@@ -36,6 +37,17 @@ userRouter.get('/list', checkToken, getUsers)
 async function getUsers(req: express.Request, res: express.Response) {
     const offset = req.query.offset || 0;
     const limit = req.query.limit || 10;
+    const name = req.query.name;
+    // tslint:disable-next-line:variable-name
+    const last_name = req.query.last_name || '';
+    const query = {
+        offset,
+        limit,
+        last_name
+    }
+    console.log(query);
+    const users = await getUsersService(query);
+    sendSuccess(users, res)
 }
 
 async function register(req: express.Request, res: express.Response) {

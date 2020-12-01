@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertDataToElasticSearch = exports.getAllUser = exports.deleteUserById = exports.checkExistEmail = exports.checkExistPhone = exports.updateUserById = exports.getUserById = exports.getUserByPhone = exports.checkUniqueData = exports.createUser = void 0;
+exports.insertDataToElasticSearch = exports.getUsersService = exports.deleteUserById = exports.checkExistEmail = exports.checkExistPhone = exports.updateUserById = exports.getUserById = exports.getUserByPhone = exports.checkUniqueData = exports.createUser = void 0;
 const models_1 = require("../../../models");
 const sequelize_1 = require("sequelize");
 const setup_1 = require("../../../setup");
@@ -156,16 +156,28 @@ async function deleteUserById(id) {
     }
 }
 exports.deleteUserById = deleteUserById;
-async function getAllUser() {
+async function getUsersService(query) {
     try {
-        return await models_1.UserModel.findAll();
+        return await setup_2.searchClient.search({
+            index: 'users',
+            from: query.offset,
+            size: query.limit,
+            body: {
+                query: {
+                    multi_match: {
+                        query: query.last_name,
+                        fields: ['last_name']
+                    }
+                }
+            }
+        });
     }
     catch (e) {
         console.log(`===get all user fail with error: ${e.message}`);
         return null;
     }
 }
-exports.getAllUser = getAllUser;
+exports.getUsersService = getUsersService;
 async function insertDataToElasticSearch() {
     setup_2.searchClient.indices.delete({
         index: 'users'

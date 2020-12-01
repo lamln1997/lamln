@@ -37,6 +37,16 @@ userRouter.get('/list', middleware_1.checkToken, getUsers);
 async function getUsers(req, res) {
     const offset = req.query.offset || 0;
     const limit = req.query.limit || 10;
+    const name = req.query.name;
+    const last_name = req.query.last_name || '';
+    const query = {
+        offset,
+        limit,
+        last_name
+    };
+    console.log(query);
+    const users = await services_1.getUsersService(query);
+    response_1.sendSuccess(users, res);
 }
 async function register(req, res) {
     try {
