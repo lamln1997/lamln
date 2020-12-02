@@ -37,16 +37,32 @@ userRouter.get('/list', middleware_1.checkToken, getUsers);
 async function getUsers(req, res) {
     const offset = req.query.offset || 0;
     const limit = req.query.limit || 10;
-    const name = req.query.name;
     const last_name = req.query.last_name || '';
+    const first_name = req.query.first_name || '';
+    const phone = req.query.phone || '';
+    const email = req.query.email || '';
     const query = {
-        offset,
-        limit,
-        last_name
+        last_name,
+        first_name,
+        phone,
+        email
     };
-    console.log(query);
-    const users = await services_1.getUsersService(query);
-    response_1.sendSuccess(users, res);
+    const users = await services_1.getUsersService(offset, limit, query);
+    if (users) {
+        const result = [];
+        const total = users.hits.total.value;
+        const data = users.hits.hits;
+        for (let i = 0; i < data.length; i++) {
+            const user = data[i];
+            result.push(user._source);
+        }
+        response_1.sendSuccess({
+            items: result,
+            total
+        }, res);
+        return;
+    }
+    response_1.sendBadRequest(res, 'Có lỗi xảy ra');
 }
 async function register(req, res) {
     try {

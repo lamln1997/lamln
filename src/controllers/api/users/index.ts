@@ -37,17 +37,35 @@ userRouter.get('/list', checkToken, getUsers)
 async function getUsers(req: express.Request, res: express.Response) {
     const offset = req.query.offset || 0;
     const limit = req.query.limit || 10;
-    const name = req.query.name;
     // tslint:disable-next-line:variable-name
     const last_name = req.query.last_name || '';
+    // tslint:disable-next-line:variable-name
+    const first_name = req.query.first_name || '';
+    const phone = req.query.phone || '';
+    const email = req.query.email || '';
     const query = {
-        offset,
-        limit,
-        last_name
+        last_name,
+        first_name,
+        phone,
+        email
     }
-    console.log(query);
-    const users = await getUsersService(query);
-    sendSuccess(users, res)
+    const users = await getUsersService(offset, limit, query);
+    if (users) {
+        const result = [];
+        const total = users.hits.total.value;
+        const data = users.hits.hits;
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i <  data.length; i++) {
+            const user = data[i];
+            result.push(user._source);
+        }
+        sendSuccess({
+            items: result,
+            total
+        }, res)
+        return;
+    }
+    sendBadRequest(res, 'Có lỗi xảy ra');
 }
 
 async function register(req: express.Request, res: express.Response) {

@@ -151,17 +151,49 @@ async function deleteUserById(id) {
     }
 }
 
-async function getUsersService(query) {
+async function getUsersService(offset, limit, query) {
     try {
+        const where = [];
+        if (query.first_name.trim()) {
+            const obj = {
+                    match: {
+                        first_name: query.first_name
+                    }
+                }
+            where.push(obj);
+        }
+        if (query.last_name.trim()) {
+            const obj = {
+                match: {
+                    last_name: query.last_name
+                }
+            }
+            where.push(obj);
+        }
+        if (query.phone.trim()) {
+            const obj = {
+                match: {
+                    phone: query.phone
+                }
+            }
+            where.push(obj);
+        }
+        if (query.email.trim()) {
+            const obj = {
+                match: {
+                    email: query.email
+                }
+            }
+            where.push(obj);
+        }
         return await searchClient.search({
             index: 'users',
-            from: query.offset,
-            size: query.limit,
+            from: offset,
+            size: limit,
             body: {
                 query: {
-                    multi_match: {
-                        query: query.last_name,
-                        fields: ['last_name']
+                    bool: {
+                        must: where
                     }
                 }
             }
@@ -187,9 +219,7 @@ async function createIndexUsersInElasticsearch() {
     for (const user of users) {
         searchClient.index({
             index: 'users',
-            body: {
-                body: user
-            }
+            body: user
         });
     }
 }

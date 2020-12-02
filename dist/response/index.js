@@ -11,7 +11,7 @@ const statusCode = {
 function sendSuccess(data, res) {
     return res.status(200).json({
         statusCode: statusCode.SUCCESS,
-        data: data,
+        data,
         error: null
     });
 }

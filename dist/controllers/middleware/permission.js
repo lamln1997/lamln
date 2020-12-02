@@ -23,7 +23,7 @@ exports.checkPermission = void 0;
 const jwt = __importStar(require("jsonwebtoken"));
 const services_1 = require("../services");
 async function checkPermission(req, res, permission) {
-    const authHeader = req.headers['authorization'];
+    const authHeader = req.headers.authorization;
     if (authHeader !== undefined) {
         const token = authHeader.split(' ')[1];
         let decoded;

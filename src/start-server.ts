@@ -24,7 +24,7 @@ export  async function start() {
     }).catch(err => {
         console.log(`postgres fail with message: ${err}` )
     })
-    return Promise.all([startServer(), consumeQueue('insertDataElasticsearch')])
+    return Promise.all([startServer(), insertDataFromPostgresToElastic(), consumeQueue('insertDataElasticsearch')])
 }
 async function  migrateDatabases() {
     return addModelToDatabase();
