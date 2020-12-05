@@ -14,9 +14,10 @@ const modelsPsql = [
     models_1.RolePermission,
     models_1.UserRoleModel
 ];
-exports.addModelToDatabase = () => {
+const addModelToDatabase = () => {
     exports.sequelizePsql.addModels(modelsPsql);
 };
+exports.addModelToDatabase = addModelToDatabase;
 module.exports = {
     addModelToDatabase: exports.addModelToDatabase,
     sequelizePsql: exports.sequelizePsql
