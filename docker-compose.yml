@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 services:
   web:
     build:
@@ -7,3 +7,5 @@ services:
     container_name: nodejs
     ports:
       - "3000:3000"
+    volumes:
+      - .:/home/nodejs/src

@@ -2,7 +2,7 @@
   "name": "lamln",
   "version": "1.0.0",
   "description": "",
-  "express-joi-validation@4.0.4-beta.0": "index.js",
+  "private": "true",
   "scripts": {
     "test": "env TS_NODE_PROJECT=\"tsconfig.json\" mocha --require ts-node/register 'src/test/**/*.ts'",
     "watch-ts": "tsc -w",

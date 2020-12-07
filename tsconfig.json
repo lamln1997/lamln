@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    // phương thức khởi tạo mododule, nodejs sử dụng commonjs
+    // phương thức khởi tạo module, nodejs sử dung commonjs
     "module": "commonjs",
     // sử dụng import thay vi required
     "esModuleInterop": true,
