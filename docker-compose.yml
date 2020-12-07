@@ -3,9 +3,8 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: nodejs
     ports:
-      - "3000:3000"
+      - "3333:3000"
     volumes:
       - .:/home/nodejs/src
+    restart: unless-stopped
