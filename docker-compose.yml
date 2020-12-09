@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_HOST: 'postgres'
-      POSTGRES_PORT: 54321
+      POSTGRES_PORT: 5432
     depends_on:
       - postgres
   postgres:
@@ -19,10 +19,10 @@ services:
       - .docker/postgres:/var/lib/postgresql/data
     restart: unless-stopped
     ports:
-      - 54321:5432
-#      - 5432:5432
+#      - 54321:5432
+      - 5432:5432
 #    chuyển đổi port của postgres từ 5432 -> 54321
-    command: -p 54321
+#    command: -p 54321
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 12345678
