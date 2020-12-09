@@ -4,24 +4,29 @@ services:
     build:
       context: .
     ports:
-      - "3000:3000"
+      - "3333:3000"
     volumes:
       - .:/home/nodejs/src
     restart: unless-stopped
     environment:
       POSTGRES_HOST: 'postgres'
+      POSTGRES_PORT: 54321
     depends_on:
       - postgres
   postgres:
     image: postgres:12.5-alpine
     volumes:
-      - .docker/postgres:/data/postgres
+      - .docker/postgres:/var/lib/postgresql/data
     restart: unless-stopped
     ports:
-      - 5432:5432
+      - 54321:5432
+#      - 5432:5432
+#    chuyển đổi port của postgres từ 5432 -> 54321
+    command: -p 54321
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 12345678
       POSTGRES_DB: express
+      PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_HOST_AUTH_METHOD: trust
 

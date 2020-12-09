@@ -4,7 +4,7 @@ exports.databasePsql = void 0;
 const databasePsql = {
     database: 'express',
     dialect: 'postgres',
-    port: 5432,
+    port: process.env.POSTGRES_PORT,
     replication: {
         read: {
             host: process.env.POSTGRES_HOST,

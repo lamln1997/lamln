@@ -66,11 +66,6 @@ async function getUsers(req, res) {
 }
 async function register(req, res) {
     try {
-        const isPermission = await middleware_1.checkPermission(req, res, 'user_create');
-        if (!isPermission) {
-            response_1.sendForbiddenRequest(res);
-            return;
-        }
         const body = req.body;
         const userByPhonel = await services_1.checkUniqueData(req.body.phone, req.body.email);
         if (userByPhonel) {
@@ -90,6 +85,7 @@ async function register(req, res) {
         response_1.sendSuccess(user, res);
     }
     catch (e) {
+        console.log(e);
         response_1.sendInternalServerErrorRequest(res);
     }
 }

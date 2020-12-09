@@ -5,5 +5,5 @@ COPY . .
 RUN npm install
 CMD ["npm", "start"]
 
-#start the project:  docker-compose exec server npm restart
+#start the project:  .docker-compose exec server npm restart
 

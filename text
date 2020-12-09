@@ -1,6 +1,10 @@
-truy vấn vào container khi docker-compose up
+- truy vấn vào container khi docker-compose up
     docker-compose exec "tên service" commandline
     example:
         docker-compose exec server npm restart
         docker-compose exec postgres psql -U root express
         docker-compose exec postgres sh
+
+
+- start postgres
+    sudo -u postgres psql

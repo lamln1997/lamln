@@ -70,11 +70,11 @@ async function getUsers(req: express.Request, res: express.Response) {
 
 async function register(req: express.Request, res: express.Response) {
     try {
-        const isPermission = await checkPermission(req, res, 'user_create');
-        if (!isPermission) {
-            sendForbiddenRequest(res);
-            return;
-        }
+        // const isPermission = await checkPermission(req, res, 'user_create');
+        // if (!isPermission) {
+        //     sendForbiddenRequest(res);
+        //     return;
+        // }
         const body = req.body;
         const userByPhonel = await checkUniqueData(req.body.phone, req.body.email)
         if (userByPhonel) {
@@ -96,6 +96,7 @@ async function register(req: express.Request, res: express.Response) {
         const user = await createUser(req.body);
         sendSuccess(user, res)
     } catch (e) {
+        console.log(e)
         sendInternalServerErrorRequest(res)
     }
 }
