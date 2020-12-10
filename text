@@ -8,3 +8,7 @@
 
 - start postgres
     sudo -u postgres psql
+
+- commandline rabbit
+    + login to container rabbit: docker-compose exec rabbitmq sh
+    + get list queues: rabbitmqctl list_queues

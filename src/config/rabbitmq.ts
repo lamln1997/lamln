@@ -1,5 +1,5 @@
 const rabbitmqConfig = {
-    url: 'amqp://localhost',
+    url: `amqp://${process.env.RABBIT_HOST}`,
     nameQueue: 'insert-data-elasticseach'
 }
 export {
