@@ -24,7 +24,6 @@ async function checkPermission(req: express.Request, res: express.Response, perm
                 const per = permissions[j];
                 if (per.name === permission) {
                     isPermission = true;
-                    console.log('==============co quyen ========= ');
                     break;
                 }
             }
@@ -32,7 +31,6 @@ async function checkPermission(req: express.Request, res: express.Response, perm
                 break;
             }
         }
-        console.log(`==========gia tri cua isPermission ${isPermission}===========`);
         return isPermission;
     }
 }

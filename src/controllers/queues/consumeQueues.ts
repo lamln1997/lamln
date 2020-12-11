@@ -19,7 +19,7 @@ async function consumeQueue(nameQueue) {
         }), consumeQueueOptions);
     })
     message.then(content => {
-        console.log(`==========Content of queue "${nameQueue}": ${content}====`);
+        console.log(`=========Content of queue "${nameQueue}": ${content}====`);
         insertDataToElasticSearch()
     });
 }
