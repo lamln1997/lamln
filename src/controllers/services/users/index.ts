@@ -195,7 +195,14 @@ async function getUsersService(offset, limit, query) {
                     bool: {
                         must: where
                     }
-                }
+                },
+                sort: [
+                    {
+                        created_at: {
+                            order: "desc"
+                        }
+                    }
+                ]
             }
         })
     } catch (e) {

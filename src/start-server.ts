@@ -17,7 +17,7 @@ async function startServer() {
     })
 }
 export  async function start() {
-    // =========== comment lại chạy nhiều hoa hết cả mắt ============= //
+    // =========== comment lại chạy nhiều hoa hết cả mắt ============ //
     await migrateDatabases();
     sequelizePsql.sync({ alter: true }).then(() => {
         console.log('create model postgres success');
