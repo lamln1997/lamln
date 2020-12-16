@@ -2,14 +2,13 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 var should = chai.should();
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywicGhvbmUiOiIwMzk5MDM3NzM3IiwiaWF0IjoxNjA1OTczMzkxLCJleHAiOjE2MDYwNTk3OTF9.FPpZ1tL4dCtMGhie-i2Jl7FHIB9SFoErqLnUPi2yFJo';
-
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInBob25lIjoiMDM5OTAzNzczNyIsImlhdCI6MTYwODEzMDE0MywiZXhwIjoxNjA4MjE2NTQzfQ.OU8enPxxTWdKOAsTIY7m9HOtIHjXbVkS1KsE6Fc7UIQ'
 it('test api register user POST', function(done) {
     chai.request('localhost:3000/api/v1')
-        .post('/users/register')
+        .post('/user/register')
         .send({
-            "phone": "01686372311",
-            "email": "lamln@icheck.vn",
+            "phone": "016863723119",
+            "email": "lamln9@icheck.vn",
             "password": "123456",
             "first_name": "Alex",
             "last_name": "Siri"
@@ -22,7 +21,7 @@ it('test api register user POST', function(done) {
 
 it('test api login user POST', function(done) {
     chai.request('localhost:3000/api/v1')
-        .post('/users/login')
+        .post('/user/login')
         .send({
             "phone": "0399037737",
             "password": "123456"
@@ -35,7 +34,7 @@ it('test api login user POST', function(done) {
 
 it('test api update user PUT', function(done) {
     chai.request('localhost:3000/api/v1')
-        .put('/users/update/3')
+        .put('/user/update/3')
         .send({
             "phone": "0399037737",
             "email": "lamlnUpdated@icheck.vn",
@@ -53,7 +52,7 @@ it('test api update user PUT', function(done) {
 
 it ('test api delete user DELTE', function (done) {
     chai.request('localhost:3000/api/v1')
-        .delete('/users/delete/9')
+        .delete('/user/delete/9')
         .auth(token, {type: "bearer"})
         .end(function(err, res){
         res.should.have.status(200);
