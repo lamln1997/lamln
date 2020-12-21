@@ -28,7 +28,7 @@ import {
 } from "../../services";
 
 const userRouter = express.Router();
-userRouter.post('/register', validatorRegisterUser, register);
+userRouter.post('/register', checkToken, validatorRegisterUser, register);
 userRouter.post('/login', validatorLogin, login)
 userRouter.put('/update/:id', checkToken, validatorUpdate, update)
 userRouter.delete('/delete/:id', checkToken, deleteUser)

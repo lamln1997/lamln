@@ -12,3 +12,6 @@
 - commandline rabbit
     + login to container rabbit: docker-compose exec rabbitmq sh
     + get list queues: rabbitmqctl list_queues
+
+- stop rabbit: sudo systemctl stop rabbitmq-server
+- stop elas: sudo systemctl stop elasticsearch.service

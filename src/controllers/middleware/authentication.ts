@@ -5,7 +5,7 @@ import {
 } from '../../response';
 import {getUserById} from "../services"
 export async function checkToken(req: express.Request, res: express.Response, next) {
-    const authHeader = req.headers['authorization'];
+    const authHeader = req.headers.authorization;
     if (authHeader !== undefined) {
         const token = authHeader.split(' ')[1];
         try {

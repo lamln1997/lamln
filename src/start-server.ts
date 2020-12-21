@@ -9,7 +9,6 @@ import {
     consumeQueue
 } from './controllers/queues';
 // tslint:disable-next-line:no-var-requires
-const amqp = require('amqplib/callback_api');
 
 async function startServer() {
     return app.listen(app.get("port"), () => {
@@ -17,7 +16,7 @@ async function startServer() {
     })
 }
 export  async function start() {
-    // =========== comment lại chạy nhiều hoa hết cả mắt ============ //
+    // ========== comment lại chạy nhiều hoa hết cả mắt ============ //
     await migrateDatabases();
     sequelizePsql.sync({ alter: true }).then(() => {
         console.log('create model postgres success');
