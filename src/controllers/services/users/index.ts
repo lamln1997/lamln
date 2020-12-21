@@ -206,7 +206,7 @@ async function getUsersService(offset, limit, query) {
             }
         })
     } catch (e) {
-        console.log(`===get  user fail with error: ${e.message}`);
+        console.log(`====get  user fail with error: ${e.message}`);
         return null;
     }
 }
