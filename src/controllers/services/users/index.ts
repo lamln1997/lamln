@@ -126,11 +126,32 @@ async function getUserById(id, permission?: string) {
 
 async function updateUserById(id, body) {
     try {
-        return await UserModel.update(body,{
-            where: {
-                id
-            },
-            returning: true
+        return await sequelizePsql.transaction(async transaction => {
+            // tslint:disable-next-line:variable-name
+            const user_roles = []
+
+            body.roles.map(item => {
+                const obj = {
+                    // tslint:disable-next-line:radix
+                    role_id: parseInt(item),
+                    UserRoleModel: {
+                        constraints: false
+                    }
+                }
+                user_roles.push(obj);
+            })
+            const value = {
+                phone: body.phone.trim(),
+                email: body.email.trim(),
+                password: body.password,
+                first_name: body.first_name.trim(),
+                last_name: body.last_name.trim(),
+                age: body.age || null,
+                address: body.address ? body.address.trim() : null,
+                user_roles
+            }
+            // @ts-ignore
+            return UserModel.update(value, {where: {id}, returning: true, include: UserRoleModel, transaction});
         })
     } catch (e) {
         console.log(`update id fail: ${e}`);

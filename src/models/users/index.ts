@@ -75,6 +75,7 @@ export class UserModel extends Model<UserModel> {
 
     // constraints: bo qua cac rang buoc giua cac model
     @HasMany(() => UserRoleModel, {constraints: false})
+        // tslint:disable-next-line:variable-name
     user_roles: UserRoleModel[]
     @BelongsToMany(() => RoleModel, () => UserRoleModel)
     roles: RoleModel[]
