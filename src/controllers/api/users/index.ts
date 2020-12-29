@@ -114,6 +114,7 @@ async function login(req: express.Request, res: express.Response) {
         sendBadRequest(res, 'Mật khẩu không chính xác')
         return;
     }
+    // exp 1 day
     const exp = 24 * 60 * 60;
     const token = jwt.sign(
         {

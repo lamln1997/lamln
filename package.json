@@ -45,6 +45,7 @@
     "@types/express-serve-static-core": "^4.17.15",
     "@types/mocha": "^8.2.0",
     "@types/morgan": "^1.9.1",
+    "@types/socket.io": "^2.1.12",
     "@types/validator": "^13.1.1",
     "@types/winston-loggly-bulk": "^3.0.0",
     "amqplib": "^0.6.0",
